@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class StringToCargoConversor implements Converter<String, Cargo> {
-
 	@Autowired
 	private CargoService service;
 	
@@ -23,5 +22,4 @@ public class StringToCargoConversor implements Converter<String, Cargo> {
         
 		return service.buscarPorId(id);
 	}
-    
 }

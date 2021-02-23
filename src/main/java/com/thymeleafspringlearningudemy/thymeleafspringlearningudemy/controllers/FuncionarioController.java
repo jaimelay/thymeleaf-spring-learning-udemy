@@ -3,17 +3,23 @@ package com.thymeleafspringlearningudemy.thymeleafspringlearningudemy.controller
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.thymeleafspringlearningudemy.thymeleafspringlearningudemy.domain.Cargo;
 import com.thymeleafspringlearningudemy.thymeleafspringlearningudemy.domain.Funcionario;
 import com.thymeleafspringlearningudemy.thymeleafspringlearningudemy.domain.UF;
 import com.thymeleafspringlearningudemy.thymeleafspringlearningudemy.services.CargoService;
 import com.thymeleafspringlearningudemy.thymeleafspringlearningudemy.services.FuncionarioService;
+import com.thymeleafspringlearningudemy.thymeleafspringlearningudemy.validator.FuncionarioValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,12 +30,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/funcionarios")
 public class FuncionarioController {
-
 	@Autowired
 	private FuncionarioService funcionarioService;
+
 	@Autowired
 	private CargoService cargoService;
-
+	
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		binder.addValidators(new FuncionarioValidator());
+	}
+	
 	@GetMapping("/cadastrar")
 	public String cadastrar(Funcionario funcionario) {
 		return "/funcionario/cadastro";
@@ -42,7 +53,11 @@ public class FuncionarioController {
 	}
 	
 	@PostMapping("/salvar")
-	public String salvar(Funcionario funcionario, RedirectAttributes attr) {
+	public String salvar(@Valid Funcionario funcionario, BindingResult result, RedirectAttributes attr) {
+		if (result.hasErrors()) {
+			return "/funcionario/cadastro";
+		}
+		
 		funcionarioService.salvar(funcionario);
 		attr.addFlashAttribute("success", "Funcionário inserido com sucesso.");
 		return "redirect:/funcionarios/cadastrar";
@@ -55,7 +70,12 @@ public class FuncionarioController {
 	}
 	
 	@PostMapping("/editar")
-	public String editar(Funcionario funcionario, RedirectAttributes attr) {
+	public String editar(@Valid Funcionario funcionario, BindingResult result, RedirectAttributes attr) {
+		
+		if (result.hasErrors()) {
+			return "/funcionario/cadastro";
+		}
+		
 		funcionarioService.editar(funcionario);
 		attr.addFlashAttribute("success", "Funcionário editado com sucesso.");
 		return "redirect:/funcionarios/cadastrar";
@@ -84,7 +104,6 @@ public class FuncionarioController {
     public String getPorDatas(@RequestParam("entrada") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate entrada,
                               @RequestParam("saida") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate saida,
                               ModelMap model) {
-
         model.addAttribute("funcionarios", funcionarioService.buscarPorDatas(entrada, saida));
         return "/funcionario/lista";
     }
