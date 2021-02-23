@@ -5,7 +5,9 @@ import com.thymeleafspringlearningudemy.thymeleafspringlearningudemy.services.Ca
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 
+@Component
 public class StringToCargoConversor implements Converter<String, Cargo> {
 
 	@Autowired
