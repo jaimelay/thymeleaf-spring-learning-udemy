@@ -9,21 +9,21 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 	<meta name="description" content="" />
 	<meta name="author" content="" />
-	<link rel="icon" href="/image/favicon.png" />
+	<link rel="icon" th:href="@{/image/favicon.png}" />
 
 	<!-- Bootstrap core CSS -->
-	<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
-	<link href="/webjars/open-iconic/font/css/open-iconic-bootstrap.min.css" rel="stylesheet" />
+	<link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+	<link th:href="@{/webjars/open-iconic/font/css/open-iconic-bootstrap.min.css}" rel="stylesheet" />
 	
 	<!-- Custom styles for this template -->
-	<link href="/css/style.css" rel="stylesheet" />
+	<link th:href="@{/css/style.css}" rel="stylesheet" />
 </head>
 <body>
 	<header th:replace="fragments/header :: cabecalho">
 		<div>header</div>
 	</header>
 	
-	<div  class="layout-main">
+	<div class="layout-main">
 		<aside>
 			<nav th:replace="fragments/sidebar :: nav-sidebar">
 				<span>menu</span>
