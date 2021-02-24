@@ -3,6 +3,7 @@ package com.thymeleafspringlearningudemy.thymeleafspringlearningudemy.services;
 import java.util.List;
 
 import com.thymeleafspringlearningudemy.thymeleafspringlearningudemy.domain.Cargo;
+import com.thymeleafspringlearningudemy.thymeleafspringlearningudemy.utils.PaginationUtil;
 
 public interface CargoService {
     
@@ -17,4 +18,6 @@ public interface CargoService {
     List<Cargo> buscarTodos();
 
     boolean cargoTemFuncionarios(Long id);
+
+    PaginationUtil<Cargo> buscarPorPagina(int pagina, String direcao);
 }

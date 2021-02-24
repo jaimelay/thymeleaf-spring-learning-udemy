@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.thymeleafspringlearningudemy.thymeleafspringlearningudemy.dao.CargoDAO;
 import com.thymeleafspringlearningudemy.thymeleafspringlearningudemy.domain.Cargo;
+import com.thymeleafspringlearningudemy.thymeleafspringlearningudemy.utils.PaginationUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,4 +52,9 @@ public class CargoServiceImpl implements CargoService {
         
 		return true;
 	}
+
+    @Override
+    public PaginationUtil<Cargo> buscarPorPagina(int pagina, String direcao) {
+        return dao.buscaPaginada(pagina, direcao);
+    }
 }
